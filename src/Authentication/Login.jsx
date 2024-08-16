@@ -1,10 +1,10 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import SocialLink from "../component/SocialLink";
+// import SocialLink from "../component/SocialLink";
 import { useContext } from "react";
-import { AuthContext } from "../provider/AuthProvider";
+// import { AuthContext } from "../provider/AuthProvider";
 import toast from "react-hot-toast";
-import axios from "axios";
-import log from '../assets/login.json'
+// import axios from "axios";
+import log from "../assets/Animation - 1715785398466.json"
 import Lottie from "react-lottie";
 function Login() {
 
@@ -16,11 +16,11 @@ function Login() {
           preserveAspectRatio: "xMidYMid slice"
         }
       };
-    const {loginUser} = useContext(AuthContext)
+    // const {loginUser} = useContext(AuthContext)
 
-    const navigate = useNavigate()
-    const location = useLocation()
-    const from = location?.state || '/'
+    // const navigate = useNavigate()
+    // const location = useLocation()
+    // const from = location?.state || '/'
   
 
   const handleLogin = async e =>{
@@ -28,18 +28,18 @@ function Login() {
    
     const email = e.target.email.value
     const password = e.target.password.value
-//    const use = {email,password}
-//     console.log(use);
+   const use = {email,password}
+    console.log(use);
  try{
-    const result = await loginUser(email,password)
-        console.log(result.user)
-const {data} = await axios.post(`https://samblog-server.vercel.app/jwt`,{
-    email:result?.user?.email
-},
-{withCredentials:true}
-)
+//     const result = await loginUser(email,password)
+//         console.log(result.user)
+// const {data} = await axios.post(`https://samblog-server.vercel.app/jwt`,{
+//     email:result?.user?.email
+// },
+// {withCredentials:true}
+// )
 console.log(data)
-    navigate(from, {replace:true})
+    // navigate(from, {replace:true})
     toast.success('Signin Successfl')
  }catch(err){
     console.log(err)
@@ -71,7 +71,7 @@ console.log(data)
               
 
 <div className="text-center justify-center items-center">
-<SocialLink/>
+{/* <SocialLink/> */}
 
 </div>
 
