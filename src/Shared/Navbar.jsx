@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 
 
@@ -9,7 +9,7 @@ export default function Navbar() {
 <div className='flex w-fit gap-10 mx-auto font-medium py-4 text-blackish'>
 <Link to="/" className='navbar__link relative'>HOME</Link>
 <Link href='#' className='navbar__link relative'>CATEGORIES</Link>
-<Link href='#' className='navbar__link relative'>Login</Link>
+<NavLink to="/login" className='navbar__link relative'>Login</NavLink>
 {/* <Link href='#' className='navbar__link relative'>WOMENS</Link>
 <Link href='#' className='navbar__link relative'>JEWELRY</Link>
 <Link href='#' className='navbar__link relative'>PERFORM</Link> */}

@@ -8,6 +8,7 @@ import Footer from './Shared/Footer'
 import Hero from './Home/Hero'
 import NewProducts from './Home/NewProducts'
 import Testimonials from './Home/Testimonials'
+import { Outlet } from 'react-router-dom'
 function App() {
 
 
@@ -17,9 +18,7 @@ function App() {
         <HeaderMain/>
         <Navbar/>
         <MobNavbar/>
-        <Hero/>
-        <NewProducts/>
-        <Testimonials/>
+      <Outlet/>
         <Footer/>
     </div>
   )
