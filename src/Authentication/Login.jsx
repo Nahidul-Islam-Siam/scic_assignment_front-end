@@ -1,124 +1,48 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-// import SocialLink from "../component/SocialLink";
-import { useContext } from "react";
-// import { AuthContext } from "../provider/AuthProvider";
-import toast from "react-hot-toast";
-// import axios from "axios";
-import log from "../assets/Animation - 1715785398466.json"
-import Lottie from "react-lottie";
-function Login() {
+import { Link } from "react-router-dom";
 
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: log,
-        rendererSettings: {
-          preserveAspectRatio: "xMidYMid slice"
-        }
-      };
-    // const {loginUser} = useContext(AuthContext)
 
-    // const navigate = useNavigate()
-    // const location = useLocation()
-    // const from = location?.state || '/'
-  
-
-  const handleLogin = async e =>{
-    e.preventDefault()
-   
-    const email = e.target.email.value
-    const password = e.target.password.value
-   const use = {email,password}
-    console.log(use);
- try{
-//     const result = await loginUser(email,password)
-//         console.log(result.user)
-// const {data} = await axios.post(`https://samblog-server.vercel.app/jwt`,{
-//     email:result?.user?.email
-// },
-// {withCredentials:true}
-// )
-console.log(data)
-    // navigate(from, {replace:true})
-    toast.success('Signin Successfl')
- }catch(err){
-    console.log(err)
-    toast.error(err?.message)
- }
-}
+export default function Login() {
     return (
-
-        <div className="">
-       
-        <div className="card lg:card-side bg-base-100 shadow-xl justify-between">
-  <figure>  <Lottie 
-	    options={defaultOptions}
-        height={400}
-        width={500}
-      /></figure>
-  <div className="card-body">
-  <div className=" items-center justify-center">
-                <div className="flex justify-center mx-auto">
-                
-                </div>
-
-                <p className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">
-                    Welcome back!
-                </p>
-
-
-
-              
-
-<div className="text-center justify-center items-center">
-{/* <SocialLink/> */}
-
-</div>
-
-
-                <div className="flex items-center justify-between mt-4">
-                    <span className="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
-
-                    <a href="#" className="text-xs text-center text-gray-500 uppercase dark:text-gray-400 hover:underline">or login with email</a>
-
-                    <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
-                </div>
-
-              <form 
-              onSubmit={handleLogin}>
-              <div className="mt-4">
-                    <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="LoggingEmailAddress">Email Address</label>
-                    <input id="LoggingEmailAddress" className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300" type="email"  name="email"/>
-                </div>
-
-                <div className="mt-4">
-                    <div className="flex justify-between">
-                        <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="loggingPassword">Password</label>
-                        <a href="#" className="text-xs text-gray-500 dark:text-gray-300 hover:underline">Forget Password?</a>
+  <section className="bg-gray-50 dark:bg-gray-900">
+    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+            <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"/>
+            Flowbite    
+        </a>
+        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    Sign in to your account
+                </h1>
+                <htmlForm className="space-y-4 md:space-y-6" action="#">
+                    <div>
+                        <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+                        <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required=""/>
                     </div>
-
-                    <input id="loggingPassword" name="password" className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300" type="password" />
-                </div>
-
-                <div className="mt-6">
-                    <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
-                        Sign In
-                    </button>
-                </div>
-              </form>
-
-                <div className="flex items-center justify-between mt-4">
-                    <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
-
-                    <Link to='/signup' className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline">or sign up</Link>
-
-                    <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
-                </div>
+                    <div>
+                        <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                        <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""/>
+                    </div>
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-start">
+                            <div className="flex items-center h-5">
+                              <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required=""/>
+                            </div>
+                            <div className="ml-3 text-sm">
+                              <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
+                            </div>
+                        </div>
+                        <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">htmlForgot password?</a>
+                    </div>
+                    <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+                    <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                        Don’t have an account yet? <Link to="/signUp" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</Link>
+                    </p>
+                </htmlForm>
             </div>
-  </div>
-</div>
         </div>
-    );
-}
-
-export default Login;
+    </div>
+  </section>
+    )
+  }
+  
