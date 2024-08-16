@@ -1,5 +1,6 @@
 
-
+import avatar from "../assets/avatar.png"
+import quotes from "../assets/quotes.png"
 export default function Testimonials() {
     return (
      <div>
@@ -10,7 +11,7 @@ export default function Testimonials() {
     <div className='text-center flex flex-col items-center gap-1'>
         <img
         className='rounded-full inline-block'
-        src="/avatar.png"
+        src={avatar}
         width={80}
         height={80}
         alt='dp'
@@ -19,22 +20,22 @@ export default function Testimonials() {
         <p>CEO & Founder Invision</p>
         <img
         className='inline-block py-2'
-        src="/quotes.png"
+        src={quotes}
         width={30}
         height={30}
         alt='quotes'
         />
 <p className='max-w-[200px] text-gray-500'>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
+   Wow, So much discount. 
 </p>
     </div>
 
 </div>
 
 
-<div className='bg-red-600 bg-[url(/banner-1.jpeg)] bg-cover h-[500px] rounded-2xl grid place-items-center'>
+<div className='bg-red-600 bg-[url(/test-1.png)] bg-cover h-[500px] rounded-2xl grid place-items-center'>
 <div className='bg-[#ffffffab] min-w-[270px] sm:min-w-[300px] md:min-w-[500px] rounded-xl py-8 sm:px-8 px-2 grid place-items-center gap-3'>
-    <button className='bg-blackish text-white p-2 rounded-md'>25% DISCOUNT</button>
+    <button className='bg-blackish text-red-600 p-2 rounded-md'>25% DISCOUNT</button>
 <h2 className='font-extrabold text-2xl text-[#272727]'>Summer Collection</h2>
 <p className='text-gray-500 text-[20px]'>Starting @ $20 <b>Shop Now</b></p>
 </div>
