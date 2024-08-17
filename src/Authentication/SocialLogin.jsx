@@ -6,6 +6,7 @@ import toast from "react-hot-toast"
 
 export default function SocialLogin() {
     const {googleLogin,githubLogin} = useContext(AuthContext)
+    // eslint-disable-next-line no-unused-vars
     const {user} = useContext(AuthContext)
     const navigate = useNavigate()
 const location = useLocation()
@@ -14,6 +15,7 @@ const from = location?.state || '/'
 
 //  navigate(from)
 
+ // eslint-disable-next-line no-unused-vars
  const handleSocialLogin = async () =>{
 try{
 const result = await googleLogin()

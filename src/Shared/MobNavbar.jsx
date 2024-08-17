@@ -1,7 +1,7 @@
 
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { AiFillProfile, AiOutlineHome } from "react-icons/ai";
-import { FiHeart } from 'react-icons/fi';
+
 import { BiLogIn } from "react-icons/bi";
 export default function MobNavbar() {
   return (
