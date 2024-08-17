@@ -13,7 +13,7 @@ export default function Slide({img, title,mainTitle,price}) {
 
 </div>
 </div>
-<image className='w-[100%] h-[300px] md:h-auto rounded-xl object-cover object-right md:object-left-bottom'
+<img className='w-[100%] h-[300px] md:h-auto rounded-xl object-cover object-right md:object-left-bottom'
 src={img}
 alt='banner'
 width={2000}

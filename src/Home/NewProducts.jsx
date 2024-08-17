@@ -1,45 +1,68 @@
-import React, { useState } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
 
-export default function NewProducts({ product }) {
+export default function NewProducts({ product = [] }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [priceRange, setPriceRange] = useState([0, 1000]); // [min, max] price
   const [sortOption, setSortOption] = useState(""); // "price-asc", "price-desc", "date-newest"
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const itemsPerPage = 8;
 
-  // Filter products based on search, category, brand, and price range
-  const filteredProducts = product
-    .filter((item) =>
-      item.productName.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter((item) =>
-      selectedBrand ? item.brandName === selectedBrand : true
-    )
-    .filter((item) =>
-      selectedCategory ? item.category === selectedCategory : true
-    )
-    .filter((item) =>
-      item.price >= priceRange[0] && item.price <= priceRange[1]
-    );
+  // Debounce search input
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      applyFiltersAndSort();
+    }, 300); // 300ms debounce time
 
-  // Sort products based on the selected option
-  const sortedProducts = filteredProducts.sort((a, b) => {
-    if (sortOption === "price-asc") return a.price - b.price;
-    if (sortOption === "price-desc") return b.price - a.price;
-    if (sortOption === "date-newest") return new Date(b.creationDate) - new Date(a.creationDate);
-    return 0;
-  });
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, selectedBrand, selectedCategory, priceRange, sortOption]);
+
+  const applyFiltersAndSort = () => {
+    setIsLoading(true);
+    const filtered = Array.isArray(product)
+      ? product
+          .filter((item) =>
+            item.productName.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+          .filter((item) =>
+            selectedBrand ? item.brandName === selectedBrand : true
+          )
+          .filter((item) =>
+            selectedCategory ? item.category === selectedCategory : true
+          )
+          .filter(
+            (item) =>
+              item.price >= priceRange[0] && item.price <= priceRange[1]
+          )
+      : [];
+
+    const sorted = filtered.sort((a, b) => {
+      if (sortOption === "price-asc") return a.price - b.price;
+      if (sortOption === "price-desc") return b.price - a.price;
+      if (sortOption === "date-newest")
+        return new Date(b.creationDate) - new Date(a.creationDate);
+      return 0;
+    });
+
+    setFilteredProducts(sorted);
+    setIsLoading(false);
+  };
 
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentProducts = sortedProducts.slice(indexOfFirstItem, indexOfLastItem);
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
-  const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
   const handleClick = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -51,8 +74,11 @@ export default function NewProducts({ product }) {
           key={i}
           onClick={() => handleClick(i)}
           className={`px-3 py-1 m-1 border ${
-            currentPage === i ? "bg-blue-500 text-white" : "bg-white text-blue-500"
+            currentPage === i
+              ? "bg-blue-500 text-white"
+              : "bg-white text-blue-500"
           }`}
+          aria-label={`Go to page ${i}`}
         >
           {i}
         </button>
@@ -76,62 +102,93 @@ export default function NewProducts({ product }) {
         />
 
         {/* Brand Filter */}
-        <select onChange={(e) => setSelectedBrand(e.target.value)} value={selectedBrand} className="mb-4 p-2 border">
+        <select
+          onChange={(e) => setSelectedBrand(e.target.value)}
+          value={selectedBrand}
+          className="mb-4 p-2 border"
+        >
           <option value="">All Brands</option>
-          <option value="Logitech">Logitech</option>
-          <option value="Apple">Apple</option>
-          <option value="Samsung">Samsung</option>
-          {/* Add more brands here */}
+          {Array.isArray(product) &&
+            [...new Set(product.map((item) => item.brandName))].map((brand) => (
+              <option key={brand} value={brand}>
+                {brand}
+              </option>
+            ))}
         </select>
 
         {/* Category Filter */}
-        <select onChange={(e) => setSelectedCategory(e.target.value)} value={selectedCategory} className="mb-4 p-2 border">
+        <select
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          value={selectedCategory}
+          className="mb-4 p-2 border"
+        >
           <option value="">All Categories</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Fashion">Fashion</option>
-          <option value="Home">Home</option>
-          {/* Add more categories here */}
+          {Array.isArray(product) &&
+            [...new Set(product.map((item) => item.category))].map(
+              (category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              )
+            )}
         </select>
 
         {/* Price Range Filter */}
-        <input
-          type="number"
-          placeholder="Min price"
-          value={priceRange[0]}
-          onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
-          className="mb-4 p-2 border"
-        />
-        <input
-          type="number"
-          placeholder="Max price"
-          value={priceRange[1]}
-          onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
-          className="mb-4 p-2 border"
-        />
+        <div className="mb-4">
+          <input
+            type="number"
+            placeholder="Min price"
+            value={priceRange[0]}
+            onChange={(e) =>
+              setPriceRange([Number(e.target.value), priceRange[1]])
+            }
+            className="p-2 border"
+          />
+          <input
+            type="number"
+            placeholder="Max price"
+            value={priceRange[1]}
+            onChange={(e) =>
+              setPriceRange([priceRange[0], Number(e.target.value)])
+            }
+            className="p-2 border"
+          />
+        </div>
 
         {/* Sorting */}
-        <select onChange={(e) => setSortOption(e.target.value)} value={sortOption} className="mb-4 p-2 border">
+        <select
+          onChange={(e) => setSortOption(e.target.value)}
+          value={sortOption}
+          className="mb-4 p-2 border"
+        >
           <option value="">Sort by</option>
           <option value="price-asc">Price: Low to High</option>
           <option value="price-desc">Price: High to Low</option>
           <option value="date-newest">Date Added: Newest First</option>
         </select>
 
-        <div className="grid grid-cols-1 place-items-center sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 xl:gap-x-20 xl:gap-y-10">
-          {currentProducts.map((item, index) => (
-            <ProductCard
-              key={index}
-              productImage={item.productImage}
-              productName={item.productName}
-              description={item.description}
-              ratings={item.ratings}
-              price={item.price}
-              brandName={item.brandName}
-              creationDate={item.creationDate}
-              category={item.category}
-            />
-          ))}
-        </div>
+        {/* Product Grid */}
+        {isLoading ? (
+          <div>Loading products...</div>
+        ) : currentProducts.length > 0 ? (
+          <div className="grid grid-cols-1 place-items-center sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 xl:gap-x-20 xl:gap-y-10">
+            {currentProducts.map((item) => (
+              <ProductCard
+                key={item._id}
+                productImage={item.productImage}
+                productName={item.productName}
+                description={item.description}
+                ratings={item.ratings}
+                price={item.price}
+                brandName={item.brandName}
+                creationDate={item.creationDate}
+                category={item.category}
+              />
+            ))}
+          </div>
+        ) : (
+          <div>No products found.</div>
+        )}
 
         {/* Pagination controls */}
         <div className="flex justify-center mt-8">{renderPageNumbers()}</div>
