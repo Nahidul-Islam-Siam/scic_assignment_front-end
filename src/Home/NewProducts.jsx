@@ -6,8 +6,8 @@ export default function NewProducts({ product = [] }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 1000]); // [min, max] price
-  const [sortOption, setSortOption] = useState(""); // "price-asc", "price-desc", "date-newest"
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [sortOption, setSortOption] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -72,7 +72,7 @@ export default function NewProducts({ product = [] }) {
         <button
           key="prev"
           onClick={() => handlePageClick(currentPage - 1)}
-          className="px-3 py-1 m-1 border bg-white text-blue-500"
+          className="px-4 py-2 m-1 border rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
           aria-label="Go to previous page"
         >
           Previous
@@ -85,11 +85,11 @@ export default function NewProducts({ product = [] }) {
         <button
           key={i}
           onClick={() => handlePageClick(i)}
-          className={`px-3 py-1 m-1 border ${
+          className={`px-4 py-2 m-1 border rounded-lg ${
             currentPage === i
-              ? "bg-blue-500 text-white"
-              : "bg-white text-blue-500"
-          }`}
+              ? "bg-blue-600 text-white"
+              : "bg-white text-blue-500 border-blue-500 hover:bg-blue-100"
+          } transition`}
           aria-label={`Go to page ${i}`}
         >
           {i}
@@ -102,7 +102,7 @@ export default function NewProducts({ product = [] }) {
         <button
           key="next"
           onClick={() => handlePageClick(currentPage + 1)}
-          className="px-3 py-1 m-1 border bg-white text-blue-500"
+          className="px-4 py-2 m-1 border rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
           aria-label="Go to next page"
         >
           Next
@@ -114,83 +114,85 @@ export default function NewProducts({ product = [] }) {
   };
 
   return (
-    <div className="container pt-16">
-      <h2 className="font-medium text-2xl pb-4">New Products</h2>
+    <div className="container mx-auto pt-16 px-4">
+      <h2 className="font-bold text-3xl text-gray-800 pb-6">New Products</h2>
 
-  <div className="flex">
-  <input
-        type="text"
-        placeholder="Search by product name..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-4 p-2 border"
-      />
-
-      <select
-        onChange={(e) => setSelectedBrand(e.target.value)}
-        value={selectedBrand}
-        className="mb-4 p-2 border"
-      >
-        <option value="">All Brands</option>
-        {Array.isArray(product) &&
-          [...new Set(product.map((item) => item.brandName))].map((brand) => (
-            <option key={brand} value={brand}>
-              {brand}
-            </option>
-          ))}
-      </select>
-
-      <select
-        onChange={(e) => setSelectedCategory(e.target.value)}
-        value={selectedCategory}
-        className="mb-4 p-2 border"
-      >
-        <option value="">All Categories</option>
-        {Array.isArray(product) &&
-          [...new Set(product.map((item) => item.category))].map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-      </select>
-
-      <div className="mb-4 flex gap-2">
+      <div className="flex  gap-2 mb-6">
         <input
-          type="number"
-          placeholder="Min price"
-          value={priceRange[0]}
-          onChange={(e) =>
-            setPriceRange([Number(e.target.value), priceRange[1]])
-          }
-          className="p-2 border"
+          type="text"
+          placeholder="Search by product name..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="p-3 border border-gray-300 rounded-lg shadow-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out"
         />
-        <input
-          type="number"
-          placeholder="Max price"
-          value={priceRange[1]}
-          onChange={(e) =>
-            setPriceRange([priceRange[0], Number(e.target.value)])
-          }
-          className="p-2 border"
-        />
+
+        <select
+          onChange={(e) => setSelectedBrand(e.target.value)}
+          value={selectedBrand}
+          className="p-3 border border-gray-300 rounded-lg shadow-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out"
+        >
+          <option value="">All Brands</option>
+          {Array.isArray(product) &&
+            [...new Set(product.map((item) => item.brandName))].map((brand) => (
+              <option key={brand} value={brand}>
+                {brand}
+              </option>
+            ))}
+        </select>
+
+        <select
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          value={selectedCategory}
+          className="p-3 border border-gray-300 rounded-lg shadow-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out"
+        >
+          <option value="">All Categories</option>
+          {Array.isArray(product) &&
+            [...new Set(product.map((item) => item.category))].map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+        </select>
+
+        <div className="flex gap-2">
+          <input
+            type="number"
+            placeholder="Min price"
+            value={priceRange[0]}
+            onChange={(e) =>
+              setPriceRange([Number(e.target.value), priceRange[1]])
+            }
+            className="p-3 border border-gray-300 rounded-lg shadow-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out"
+          />
+          <input
+            type="number"
+            placeholder="Max price"
+            value={priceRange[1]}
+            onChange={(e) =>
+              setPriceRange([priceRange[0], Number(e.target.value)])
+            }
+            className="p-3 border border-gray-300 rounded-lg shadow-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out"
+          />
+        </div>
+
+        <select
+          onChange={(e) => setSortOption(e.target.value)}
+          value={sortOption}
+          className="p-3 border border-gray-300 rounded-lg shadow-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out"
+        >
+          <option value="" disabled className="text-gray-400">
+            Sort by
+          </option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="date-newest">Date Added: Newest First</option>
+        </select>
       </div>
 
-      <select
-        onChange={(e) => setSortOption(e.target.value)}
-        value={sortOption}
-        className="mb-4 p-2 border"
-      >
-        <option value="">Sort by</option>
-        <option value="price-asc">Price: Low to High</option>
-        <option value="price-desc">Price: High to Low</option>
-        <option value="date-newest">Date Added: Newest First</option>
-      </select>
-  </div>
-
       {isLoading ? (
-        <div>Loading products...</div>
+        <div className="text-center text-gray-500">Loading products...</div>
       ) : currentProducts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 xl:gap-x-20 xl:gap-y-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {currentProducts.map((item) => (
             <ProductCard
               key={item._id}
@@ -206,10 +208,12 @@ export default function NewProducts({ product = [] }) {
           ))}
         </div>
       ) : (
-        <div>No products found.</div>
+        <div className="text-center text-gray-500">No products found.</div>
       )}
 
-      <div className="flex justify-center mt-8">{renderPageNumbers()}</div>
+      <div className="flex justify-center mt-8 space-x-1">
+        {renderPageNumbers()}
+      </div>
     </div>
   );
 }
