@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
         {
 path:"/",
 element:<Home/>,
-loader:()=>fetch(`${import.meta.env.VITE_API_URL}/products`)
+loader:()=>fetch(`https://scic-server-kappa.vercel.app/products`)
         }
      
       ]
